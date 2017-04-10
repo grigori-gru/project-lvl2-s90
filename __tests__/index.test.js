@@ -48,12 +48,12 @@ test('YAML equal expected data', () => {
                        path.resolve(__dirname, '__fixtures__', 'after.yml')))
     .toEqual(result);
 });
-//
-// test('ini equal expected data', () => {
-//   expect(getDifferense(path.resolve(__dirname, '__fixtures__', 'before.ini'),
-//                        path.resolve(__dirname, '__fixtures__', 'after.ini')))
-//     .toEqual(result);
-// });
+
+test('ini equal expected data', () => {
+  expect(getDifferense(path.resolve(__dirname, '__fixtures__', 'before.ini'),
+                       path.resolve(__dirname, '__fixtures__', 'after.ini')))
+    .toEqual(result);
+});
 //
 // test('AST JSON equal expected data', () => {
 //   expect(getDifferense(path.resolve(__dirname, '__fixtures__', 'before_ast.json'),
