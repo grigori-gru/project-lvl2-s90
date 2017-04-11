@@ -5,9 +5,14 @@ import getData from './reader';
 
 const getFormat = item => path.extname(item).slice(1);
 
+const toAst = item =>
+  _.reduce(item, (acc, value, key) =>
+    [...acc, { key, value: (typeof value === 'object') ? toAst(value) : value }],
+    []);
+
 export default (firstName, secondName) => {
   const [file1, file2] = [firstName, secondName].map(item =>
-    parse(getFormat(item), getData(item)));
+    toAst(parse(getFormat(item), getData(item))));
 
   const result = _.unionWith(file1, file2, _.isEqual)
     .sort((a, b) => (a.key === b.key ? a.value < b.value : a.key > b.key))
