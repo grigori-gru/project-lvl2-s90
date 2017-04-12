@@ -8,3 +8,5 @@ publish:
 				npm run publish
 test:
 				npm test
+testwatch:
+				npm run testwatch
