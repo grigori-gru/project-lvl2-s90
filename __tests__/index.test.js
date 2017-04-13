@@ -13,28 +13,28 @@ const result =
 const resultAst =
 `{
     common: {
-        setting1: Value 1
-      - setting2: 200
-        setting3: true
-      - setting6: {
-            key: value
-        }
-      + setting4: blah blah
-      + setting5: {
-            key5: value5
-        }
+      setting1: Value 1
+    - setting2: 200
+      setting3: true
+    + setting4: blah blah
+    + setting5: {
+        key5: value5
     }
+    - setting6: {
+        key: value
+    }
+  }
     group1: {
-      + baz: bars
-      - baz: bas
-        foo: bar
-    }
+    - baz: bas
+    + baz: bars
+      foo: bar
+  }
   - group2: {
-        abc: 12345
-    }
+      abc: 12345
+  }
   + group3: {
-        fee: 100500
-    }
+      fee: 100500
+  }
 }`;
 
 test('JSON equal expected data', () => {
@@ -55,8 +55,20 @@ test('ini equal expected data', () => {
     .toEqual(result);
 });
 
-test('AST JSON equal expected data', () => {
+test('JSON AST equal expected data', () => {
   expect(getDifferense(path.resolve(__dirname, '__fixtures__', 'before_ast.json'),
                        path.resolve(__dirname, '__fixtures__', 'after_ast.json')))
+    .toEqual(resultAst);
+});
+
+test('YAML AST equal expected data', () => {
+  expect(getDifferense(path.resolve(__dirname, '__fixtures__', 'before_ast.yml'),
+                       path.resolve(__dirname, '__fixtures__', 'after_ast.yml')))
+    .toEqual(resultAst);
+});
+
+test('ini AST equal expected data', () => {
+  expect(getDifferense(path.resolve(__dirname, '__fixtures__', 'before_ast.ini'),
+                       path.resolve(__dirname, '__fixtures__', 'after_ast.ini')))
     .toEqual(resultAst);
 });
