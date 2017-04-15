@@ -1,16 +1,16 @@
 import path from 'path';
 import getDifferense from '../src/';
 
-// const result =
-// `{
-//     host: hexlet.io
-//   + timeout: 20
-//   - timeout: 50
-//   - proxy: 123.234.53.22
-//   + verbose: true
-// }`;
+const simpleDif =
+`{
+    host: hexlet.io
+  + timeout: 20
+  - timeout: 50
+  - proxy: 123.234.53.22
+  + verbose: true
+}`;
 
-const resultAst =
+const nestDif =
 `{
     common: {
       setting1: Value 1
@@ -37,51 +37,54 @@ const resultAst =
   }
 }`;
 
-const plainResult =
+const plainDif =
 `Property 'timeout' was updated. From '50' to '20'
 Property 'proxy' was removed
 Property 'verbose' was added with value: true`;
 
-// test('JSON equal expected data', () => {
-//   expect(getDifferense(path.resolve(__dirname, '__fixtures__', 'before.json'),
-//                        path.resolve(__dirname, '__fixtures__', 'after.json')))
-//     .toEqual(result);
-// });
+const plainNestDif =
+`Property 'common.setting2' was removed
+Property 'common.setting6' was removed
+Property 'common.setting4' was added with value: blah blah
+Property 'common.setting5' was added with complex object
+Property 'group1.baz' was updated. From 'bas' to 'bars'
+Property 'group2' was removed
+Property 'group3' was added with complex object`;
+
+const expected = (before, after, format) =>
+  getDifferense(path.resolve(__dirname, '__fixtures__', before),
+                path.resolve(__dirname, '__fixtures__', after),
+                format);
 
 test('JSON equal expected data', () => {
-  expect(getDifferense(path.resolve(__dirname, '__fixtures__', 'before.json'),
-                       path.resolve(__dirname, '__fixtures__', 'after.json'),
-                       'plain'))
-    .toEqual(plainResult);
+  expect(expected('before.json', 'after.json')).toEqual(simpleDif);
 });
 
-// test('YAML equal expected data', () => {
-//   expect(getDifferense(path.resolve(__dirname, '__fixtures__', 'before.yml'),
-//                        path.resolve(__dirname, '__fixtures__', 'after.yml')))
-//     .toEqual(result);
-// });
-//
-// test('ini equal expected data', () => {
-//   expect(getDifferense(path.resolve(__dirname, '__fixtures__', 'before.ini'),
-//                        path.resolve(__dirname, '__fixtures__', 'after.ini')))
-//     .toEqual(result);
-// });
+test('YAML equal expected data', () => {
+  expect(expected('before.yml', 'after.yml')).toEqual(simpleDif);
+});
 
-test('JSON AST equal expected data', () => {
-  expect(getDifferense(path.resolve(__dirname, '__fixtures__', 'before_ast.json'),
-                       path.resolve(__dirname, '__fixtures__', 'after_ast.json')))
-    .toEqual(resultAst);
+test('ini equal expected data', () => {
+  expect(expected('before.ini', 'after.ini')).toEqual(simpleDif);
+});
+
+test('nested JSON equal expected data', () => {
+  expect(expected('before_nest.json', 'after_nest.json')).toEqual(nestDif);
 });
 
 
-// test('YAML AST equal expected data', () => {
-//   expect(getDifferense(path.resolve(__dirname, '__fixtures__', 'before_ast.yml'),
-//                        path.resolve(__dirname, '__fixtures__', 'after_ast.yml')))
-//     .toEqual(resultAst);
-// });
-//
-// test('ini AST equal expected data', () => {
-//   expect(getDifferense(path.resolve(__dirname, '__fixtures__', 'before_ast.ini'),
-//                        path.resolve(__dirname, '__fixtures__', 'after_ast.ini')))
-//     .toEqual(resultAst);
-// });
+test('nested YAML equal expected data', () => {
+  expect(expected('before_nest.yml', 'after_nest.yml')).toEqual(nestDif);
+});
+
+test('nested ini equal expected data', () => {
+  expect(expected('before_nest.ini', 'after_nest.ini')).toEqual(nestDif);
+});
+
+test('JSON equal expected data with option plain', () => {
+  expect(expected('before.json', 'after.json', 'plain')).toEqual(plainDif);
+});
+
+test('JSON equal expected data with option plain', () => {
+  expect(expected('before_nest.json', 'after_nest.json', 'plain')).toEqual(plainNestDif);
+});

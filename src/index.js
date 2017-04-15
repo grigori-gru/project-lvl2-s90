@@ -2,7 +2,7 @@ import _ from 'lodash';
 import path from 'path';
 import parse from './parsers';
 import getData from './reader';
-import useFormat from './option';
+import render from './renderers';
 
 const getFormat = item => path.extname(item).slice(1);
 
@@ -33,7 +33,7 @@ export default (firstName, secondName, option = 'stringify') => {
   const [f1, f2] = [firstName, secondName].map(item =>
     parse(getFormat(item), getData(item)));
 
-  const result = makeAst(f1, f2);
+  const ast = makeAst(f1, f2);
 
-  return useFormat(option, result);
+  return render(option, ast);
 };
