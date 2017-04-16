@@ -8,9 +8,7 @@ program
   .option('-f, --format [type]', 'Output format')
   .arguments('<first_config> <second_config>')
   .action((first, second) => {
-    console.log(getDifferense(first, second));
+    console.log(getDifferense(first, second, program.format));
   });
 
 program.parse(process.argv);
-
-console.log(program.format);
