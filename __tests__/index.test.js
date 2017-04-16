@@ -72,7 +72,6 @@ test('nested JSON equal expected data', () => {
   expect(expected('before_nest.json', 'after_nest.json')).toEqual(nestDif);
 });
 
-
 test('nested YAML equal expected data', () => {
   expect(expected('before_nest.yml', 'after_nest.yml')).toEqual(nestDif);
 });
