@@ -17,7 +17,7 @@ const makeAst = (f1, f2) =>
       }
       return (f1[key] === f2[key]) ?
         createNode('unchanged', key, f1[key], '', []) :
-        createNode('updated', key, f2[key], f1[key], []);
+        createNode('updated', key, f1[key], f2[key], []);
     }
     if (_.has(f1, key)) {
       return (typeof f1[key] === 'object') ?

@@ -6,7 +6,7 @@ const getInfo = {
     return `Property '${key}' was added with ${addedVallue}`;
   },
   updated: (key, oldValue, newValue) =>
-    `Property '${key}' was updated. From '${newValue}' to '${oldValue}'`,
+    `Property '${key}' was updated. From '${oldValue}' to '${newValue}'`,
   removed: key => `Property '${key}' was removed`,
 };
 

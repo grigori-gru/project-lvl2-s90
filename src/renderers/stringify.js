@@ -2,21 +2,21 @@ const sign = {
   unchanged: () => ' ',
   added: () => '+',
   removed: () => '-',
-  updated: age => (age === 'old' ? '+' : '-'),
+  updated: age => (age === 'old' ? '-' : '+'),
 };
 
 const fromAst = item =>
   item.reduce((acc, { type, key, oldValue, newValue, children }) => {
-    if (newValue) {
+    if (oldValue) {
       return {
         ...acc,
-        [`${sign[type]('old')} ${key}`]: oldValue,
         [`${sign[type]('new')} ${key}`]: newValue,
+        [`${sign[type]('old')} ${key}`]: oldValue,
       };
     }
     return {
       ...acc,
-      [`${sign[type]()} ${key}`]: children.length > 0 ? fromAst(children) : oldValue,
+      [`${sign[type]()} ${key}`]: children.length > 0 ? fromAst(children) : newValue,
     };
   }, {});
 
