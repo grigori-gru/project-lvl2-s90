@@ -1,16 +1,19 @@
 const fromAst = ast =>
   ast.reduce((acc, item) => {
     const newAcc = ({ type, key, oldValue, newValue, children }) => {
-      if (children.length > 0) {
-        return ({ [key]: { type, value: fromAst(children) } });
-      }
-      const value = {
-        unchanged: { [key]: { type, value: oldValue } },
-        added: { [key]: { type, value: newValue } },
-        removed: { [key]: { type, value: newValue } },
-        updated: { [key]: { type, oldValue, newValue } },
+      const value = (children.length > 0)
+        ? {
+          unchanged: { value: fromAst(children) },
+          added: { newValue: fromAst(children) },
+          removed: { oldvalue: fromAst(children) },
+        }
+      : {
+        unchanged: { value: oldValue },
+        added: { newValue },
+        removed: { oldvalue: newValue },
+        updated: { oldValue, newValue },
       };
-      return value[type];
+      return { [key]: value[type] };
     };
     return { ...acc, ...newAcc(item) };
   }, {});
