@@ -34,6 +34,7 @@ gendiff [options] first_config second_config
     > gendiff -f plain first_config second_config
 
     result will be like
+
         Property 'common.setting2' was removed     
         Property 'common.setting6' was removed     
         Property 'common.setting4' was added with value: blah blah     
